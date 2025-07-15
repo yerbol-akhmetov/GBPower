@@ -11,8 +11,8 @@ dependencies:
 - pip
 
 - atlite>=0.2.9
-- pypsa>=0.31.0
-- linopy
+- pypsa<0.31.0
+- linopy<=0.3.11
 - dask
 
 # Dependencies of the workflow itself
@@ -28,7 +28,7 @@ dependencies:
 - numpy
 - pandas>=2.1
 - geopandas>=1
-- xarray>=2023.11.0
+- xarray>=2023.11.0, <2025.01.2
 - rioxarray
 - netcdf4
 - networkx
