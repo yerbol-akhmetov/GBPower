@@ -39,10 +39,13 @@ from entsoe import EntsoePandasClient
 from _helpers import (
     to_datetime,
     configure_logging,
+    mock_snakemake
 )
 from _tokens import ENTSOE_API_KEY
 from _constants import build_sp_register
 from _elexon_helpers import robust_request
+import sys, os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from prerun_scripts.build_flow_constraints import get_boundary_flow_day
 
 
@@ -506,6 +509,12 @@ def build_nemo_powerflow(date_range):
 
 
 if __name__ == '__main__':
+    if "snakemake" not in globals():
+        snakemake = mock_snakemake(
+            "build_base",
+            day="2024-03-21",
+            configfiles="config.yaml"
+        )
 
     configure_logging(snakemake)
 
