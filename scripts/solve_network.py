@@ -203,7 +203,7 @@ def safe_solve(n, factor=1):
         n.links = hold.links.copy()
 
         tune_line_capacities(n, factor)
-        status, _ = n.optimize()
+        status, _ = n.optimize(solver_name="highs")
         
         if status != 'ok':
             factor *= 1.02
@@ -312,7 +312,7 @@ if __name__ == '__main__':
 
     tolerance = 0.05 # modelled balancing volume can deviate from actual balancing volume by this much
 
-    status, _ = n_national.optimize()
+    status, _ = n_national.optimize(solver_name="highs")
     n_national.export_to_netcdf(snakemake.output['network_national'])
 
     model_execution_overview.append(
@@ -342,7 +342,7 @@ if __name__ == '__main__':
         
         hold_redispatch = n_national_redispatch.copy()
         tuned_line_capacities = tune_line_capacities(hold_redispatch, line_scaling_factor)
-        status, _ = hold_redispatch.optimize()
+        status, _ = hold_redispatch.optimize(solver_name="highs")
 
         if status == 'ok':
             balancing_volume = get_bidding_volume(n_national, hold_redispatch).sum()
@@ -410,7 +410,7 @@ if __name__ == '__main__':
 
     status, relaxation_factor = safe_solve(n_zonal, line_scaling_factor)
 
-    # status, _ = n_zonal.optimize()
+    # status, _ = n_zonal.optimize(solver_name="highs")
 
     # assert status == 'ok', f'Zonal wholesale model infeasible. Applied relax factor {relaxation_factor:.2f}'
     assert status == 'ok', f'Zonal wholesale model infeasible. Applied relax factor {line_scaling_factor:.2f}'
@@ -432,7 +432,7 @@ if __name__ == '__main__':
 
     # status, relaxation_factor = safe_solve(n_zonal_redispatch) # old way of doing it
     # relax_line_capacities(n_zonal_redispatch, relaxation_factor) # new way of doing it
-    # status, _ = n_zonal_redispatch.optimize()
+    # status, _ = n_zonal_redispatch.optimize(solver_name="highs")
 
     status, relaxation_factor = safe_solve(n_zonal_redispatch, line_scaling_factor)
 
