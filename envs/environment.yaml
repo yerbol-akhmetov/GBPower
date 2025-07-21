@@ -11,8 +11,8 @@ dependencies:
 - pip
 
 - atlite>=0.2.9
-- pypsa<0.31.0
-- linopy<=0.3.11
+- pypsa>=0.31.0
+- linopy
 - dask
 
 # Dependencies of the workflow itself
