@@ -24,9 +24,11 @@ import geopandas as gpd
 from pathlib import Path
 
 sys.path.append(str(Path.cwd() / 'scripts'))
-from _helpers import configure_logging
+from _helpers import configure_logging, mock_snakemake
 
 if __name__ == "__main__":
+    if not "snakemake" in globals():
+        snakemake = mock_snakemake("build_load_weights")
     configure_logging(snakemake)
 
     scenario = 'lw' # Leading the Way from Future Energy Scenarios.
